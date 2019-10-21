@@ -3,6 +3,7 @@
 
 #include "PacketDescriptor.h"
 #include "PacketDescriptorReordered.h"
+#include "PacketDescriptorPacked.h"
 #include "ProcessingBenchmark.h"
 #include "Utils.h"
 
@@ -30,6 +31,8 @@ int main()
 	uint8_t* packetBuffer = Allocate(PACKET_BUFFER_SIZE);
 	printf("Done!\n");
 
+	doFor<PacketDescriptorPacked>(packetBuffer);
 	doFor<PacketDescriptor>(packetBuffer);
 	doFor<PacketDescriptorReordered>(packetBuffer);
+
 }
