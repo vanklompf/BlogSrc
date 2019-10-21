@@ -11,6 +11,7 @@
 
 #define likely(x) __builtin_expect ((x), 1)
 #define unlikely(x) __builtin_expect ((x), 0)
+extern uint64_t anti_opt;
 
 template<typename TDescriptor>
 class ProcessingBenchmark
@@ -24,6 +25,10 @@ public:
 
 	int RunWrite() {
 		return Run(std::bind(&ProcessingBenchmark<TDescriptor>::ProcessDescriptorsWrite, this));
+	}
+
+	int RunTrivialRead() {
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor>::ProcessDescriptorsTrivialRead, this));
 	}
 
 	int RunRead() {
@@ -78,14 +83,35 @@ private:
 		return mpps;
 	}
 
+	uint64_t ProcessDescriptorsTrivialRead(){
+		uint64_t totalProcessedCounter = 0;
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
+
+		for (int i=0; i<m_repeats; i++) {
+			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+			uint64_t sizeCounter = 0;
+
+			do {
+				sizeCounter += descriptorPtr->GetSize();
+
+				descriptorPtr++;
+				totalProcessedCounter++;
+			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+
+			anti_opt += sizeCounter;
+		}
+
+		return totalProcessedCounter;
+	}
+
 	uint64_t ProcessDescriptorsRead(){
 		uint64_t totalProcessedCounter = 0;
 		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
 
 		for (int i=0; i<m_repeats; i++) {
 			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
-			volatile uint64_t sizeCounter = 0;
-			volatile uint64_t packetCounter = 0;
+			uint64_t sizeCounter = 0;
+			uint64_t packetCounter = 0;
 			do {
 				if (likely(descriptorPtr->IsValid()))
 					sizeCounter += descriptorPtr->GetSize();
@@ -96,6 +122,8 @@ private:
 				descriptorPtr++;
 				totalProcessedCounter++;
 			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+			anti_opt += sizeCounter;
+			anti_opt += packetCounter;
 		}
 
 		return totalProcessedCounter;

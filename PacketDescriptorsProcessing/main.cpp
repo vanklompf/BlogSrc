@@ -2,13 +2,16 @@
 #include <cstdlib>
 
 #include "PacketDescriptor.h"
-#include "PacketDescriptorReordered.h"
 #include "PacketDescriptorPacked.h"
+#include "PacketDescriptorReordered.h"
+#include "PacketDescriptorWithAssumptions.h"
 #include "ProcessingBenchmark.h"
 #include "Utils.h"
 
 static const uint64_t PACKET_BUFFER_SIZE = (uint64_t)2*1024*1024*1024;
 static const int REPEAT = 50;
+
+uint64_t anti_opt = 1;
 
 template<typename TDescriptor>
 static void doFor(uint8_t* packetBuffer)
@@ -18,6 +21,7 @@ static void doFor(uint8_t* packetBuffer)
 
 	printf("---------------------------------------------------------\n");
 	printf("%s\nSize: %lu\n", descriptorBenchmark.GetDescriptorName(), descriptorBenchmark.GetDescriptorSize());
+	printf("Trivial read processing performance: %d mpps\n", descriptorBenchmark.RunTrivialRead());
 	printf("Read processing performance: %d mpps\n", descriptorBenchmark.RunRead());
 	printf("Write processing performance: %d mpps\n", descriptorBenchmark.RunWrite());
 }
@@ -31,8 +35,8 @@ int main()
 	uint8_t* packetBuffer = Allocate(PACKET_BUFFER_SIZE);
 	printf("Done!\n");
 
-	doFor<PacketDescriptorPacked>(packetBuffer);
 	doFor<PacketDescriptor>(packetBuffer);
 	doFor<PacketDescriptorReordered>(packetBuffer);
-
+	doFor<PacketDescriptorPacked>(packetBuffer);
+	doFor<PacketDescriptorWithAssumptions>(packetBuffer);
 }
