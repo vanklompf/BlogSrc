@@ -9,21 +9,37 @@ struct PacketDescriptor {
 	uint64_t timestampNs;
 	uint16_t size;
 	uint64_t* payload;
-	uint8_t valid:1;
+	uint8_t isValid:1;
 	uint8_t flag2:1;
 	uint8_t flag3:1;
 	uint64_t payloadHash;
 
-	bool isValid() const {
-		return valid;
+	void SetTimestamp(uint64_t timestamp) {
+		timestampNs = timestamp;
 	}
 
-	uint16_t getSize() const {
+	bool IsValid() const {
+		return isValid;
+	}
+
+	void SetValid(bool valid) {
+		isValid = valid;
+	}
+
+	uint16_t GetSize() const {
 		return size;
 	}
 
-	uint8_t getPort() const {
+	void SetSize(uint16_t _size)  {
+		size = _size;
+	}
+
+	uint8_t GetPort() const {
 		return physicalPort;
+	}
+
+	void SetPort(uint8_t port) {
+		physicalPort = port;
 	}
 };
 

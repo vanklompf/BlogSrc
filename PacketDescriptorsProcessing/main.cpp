@@ -13,8 +13,12 @@ template<typename TDescriptor>
 static void doFor(uint8_t* packetBuffer)
 {
 	ProcessingBenchmark<TDescriptor> descriptorBenchmark(packetBuffer, PACKET_BUFFER_SIZE, REPEAT);
-	printf("%s size: %lu\n", descriptorBenchmark.getDescriptorName(), descriptorBenchmark.getDescriptorSize());
-	printf("Performance: %d mpps\n", descriptorBenchmark.run());
+	descriptorBenchmark.FillBuffer();
+
+	printf("---------------------------------------------------------\n");
+	printf("%s\nSize: %lu\n", descriptorBenchmark.GetDescriptorName(), descriptorBenchmark.GetDescriptorSize());
+	printf("Read processing performance: %d mpps\n", descriptorBenchmark.RunRead());
+	printf("Write processing performance: %d mpps\n", descriptorBenchmark.RunWrite());
 }
 
 int main()
