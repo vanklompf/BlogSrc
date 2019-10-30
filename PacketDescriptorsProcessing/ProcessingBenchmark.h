@@ -51,7 +51,7 @@ public:
 
 		TDescriptor pattern_unlikely;
 		pattern_likely.SetSize(50);
-		pattern_unlikely.SetValid(false);
+		pattern_likely.SetValid(false);
 
 		auto patternSize = sizeof(TDescriptor);
 		auto ptr = m_buffer;
