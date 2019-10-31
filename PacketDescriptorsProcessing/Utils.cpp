@@ -17,7 +17,7 @@ static void TouchPages(void* ptr, size_t size)
 	}
 }
 
-uint8_t* Allocate(size_t size, bool useHugePages)
+uint8_t* Allocate(size_t size, bool useHugePages __attribute__ ((unused)))
 {
 
 	printf("Allocating %ld Megabytes\n", size >> 20);
@@ -31,13 +31,14 @@ uint8_t* Allocate(size_t size, bool useHugePages)
 		printf("posix_memalign failed: %s\n", std::strerror(status));
 		exit(123);
 	}
-
+#if defined(MADV_HUGEPAGE)
 	status = madvise(ptr, size, useHugePages ? MADV_HUGEPAGE : MADV_NOHUGEPAGE );
 	if (status != 0)
 	{
 		printf("Madvise failed: %s\n", std::strerror(status));
 		exit(123);
 	}
+#endif
 
 	TouchPages(ptr, size);
 
