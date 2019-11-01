@@ -46,3 +46,4 @@ googletest-*/
 *.out
 *.app
 PacketDescriptorsProcessing/PacketDescriptorsProcessing
+BitSet/BitSet
