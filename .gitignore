@@ -46,4 +46,6 @@ googletest-*/
 *.out
 *.app
 PacketDescriptorsProcessing/PacketDescriptorsProcessing
+PacketDescriptorsProcessing/runUnitTests
 BitSet/BitSet
+BitSet_Popcnt/BitSet_Popcnt

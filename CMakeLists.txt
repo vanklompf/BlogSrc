@@ -3,4 +3,5 @@ project (BlogSrc)
 
 enable_testing()
 add_subdirectory(BitSet)
+add_subdirectory(BitSet_Popcnt)
 add_subdirectory(PacketDescriptorsProcessing)
