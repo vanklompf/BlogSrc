@@ -113,11 +113,12 @@ int main() {
     uint64_t res = 0;
 
     std::vector<test_function_entry_t> funcVector;
-    funcVector.push_back({runPopcount32, "runPopcount32"});
-    funcVector.push_back({runPopcount64, "runPopcount64"});
-    funcVector.push_back({runPopcountAvx2, "runPopcountAvx2"});
-    funcVector.push_back({runPopcountAvx512, "runPopcountAvx512"});
-    funcVector.push_back({runNaivePopcount32, "runNaivePopcount32"});
+    funcVector.push_back({runNaivePopcount32, "Naive popcount32"});
+    funcVector.push_back({runPopcount32, "HW popcount32"});
+    funcVector.push_back({runPopcount64, "HW popcount64"});
+    funcVector.push_back({runPopcountAvx2, "Avx2 assisted popcount"});
+    funcVector.push_back({runPopcountAvx512, "Vectorized HW popcount"});
+
 
     
     for(const auto& func : funcVector) {
@@ -127,7 +128,10 @@ int main() {
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count();
         int itps = (duration > 0) ? BITFIELD_SIZE_BYTES * REPEAT * 1000 / duration / 1024 / 1024 : 0;
         
-        printf("%s: %d MB/s\n", func.name, itps);
+		if (itps > 0)
+			printf("%s: %d MB/s\n", func.name, itps);
+		else
+			printf("%s: N/A\n", func.name);
     }
     
     printf("%lu\n", res);
