@@ -24,6 +24,7 @@ static void FillBuffer(uint8_t* bitfield, uint64_t size) {
     }
 }
 
+
 inline int popcount64_builtin(uint64_t data) {
 	return __builtin_popcountll(data);
 }
@@ -40,11 +41,12 @@ int runPopcount64_builtin(const uint8_t* bitfield, int64_t size, int repeat) {
     return res;
 }
 
+__attribute__((target_clones("popcnt","default")))
 inline int popcount64_builtin_multiarch(uint64_t data) {
 	return __builtin_popcountll(data);
 }
 
-__attribute__((target_clones("popcnt","default")))
+
 int runPopcount64_builtin_multiarch(const uint8_t* bitfield, int64_t size, int repeat) {
     int res = 0;
     const uint64_t* data = (const uint64_t*)bitfield;
@@ -57,9 +59,26 @@ int runPopcount64_builtin_multiarch(const uint8_t* bitfield, int64_t size, int r
     return res;
 }
 
+inline int popcount64_builtin_multiarch_loop(uint64_t data) {
+	return __builtin_popcountll(data);
+}
+
+__attribute__((target_clones("popcnt","default")))
+int runPopcount64_builtin_multiarch_loop(const uint8_t* bitfield, int64_t size, int repeat) {
+    int res = 0;
+    const uint64_t* data = (const uint64_t*)bitfield;
+
+    for (int r=0; r< repeat; r++)
+    for (int i=0; i<size/8; i++) {
+        res += popcount64_builtin_multiarch_loop(data[i]);
+    }
+
+    return res;
+}
+
 // DOES NOT COMPILE!!!
 /*
-int popcount64_intrinsic(uint64_t data) {
+inline int popcount64_intrinsic(uint64_t data) {
 	return _mm_popcnt_u64(data);
 }
 
@@ -77,6 +96,27 @@ static int runPopcount64_intrinsic(const uint8_t* bitfield, int64_t size, int re
 }
 */
 
+inline int popcount64_asm(uint64_t data) {
+        uint64_t ret;
+        __asm__ volatile("popcntq %0, %1"
+                     : "=a" (ret)
+                     : "r" (data));
+        return ret;
+}
+
+int runPopcount64_asm(const uint8_t* bitfield, int64_t size, int repeat) {
+    int res = 0;
+    const uint64_t* data = (const uint64_t*)bitfield;
+
+    for (int r=0; r< repeat; r++)
+    for (int i=0; i<size/8; i++) {
+        res += popcount64_asm(data[i]);
+    }
+
+    return res;
+}
+
+
 extern int runPopcount64_intrinsic_mpopcnt(const uint8_t* bitfield, int64_t size, int repeat);
 extern int runPopcount64_builtin_mpopcnt(const uint8_t* bitfield, int64_t size, int repeat);
 
@@ -89,7 +129,7 @@ struct test_function_entry_t {
 
 
 int main() {
-	printf("Synthetic bitfield benchmark showing influence of inlining and gcc multi-versioning\n");
+	printf("Synthetic benchmark showing problems when using both popcount and multi-versioning\n");
 	printf("For details check: https://extensa.tech\n");
     
     uint8_t* bitfield = (uint8_t*)malloc(BITFIELD_SIZE_BYTES);
@@ -97,11 +137,13 @@ int main() {
     uint64_t res = 0;
 
     std::vector<test_function_entry_t> funcVector;
-    //funcVector.push_back({runPopcount64__intrinsic, "runPopcount64__intrinsic"});
+    funcVector.push_back({runPopcount64_builtin, "runPopcount64_builtin"});
+    funcVector.push_back({runPopcount64_builtin_multiarch, "runPopcount64_builtin_multiarch"});
+    funcVector.push_back({runPopcount64_builtin_multiarch_loop, "runPopcount64_builtin_multiarch_loop"});
+    //funcVector.push_back({runPopcount64_intrinsic, "runPopcount64_intrinsic"});
+    funcVector.push_back({runPopcount64_asm, "runPopcount64_asm"});
     funcVector.push_back({runPopcount64_builtin_mpopcnt, "runPopcount64_builtin_mpopcnt"});
     funcVector.push_back({runPopcount64_intrinsic_mpopcnt, "runPopcount64_intrinsic_mpopcnt"});
-    funcVector.push_back({runPopcount64_builtin_multiarch, "runPopcount64_builtin_multiarch"});
-    funcVector.push_back({runPopcount64_builtin, "runPopcount64_builtin"});
 
     for(const auto& func : funcVector) {
         auto start = std::chrono::high_resolution_clock::now();
