@@ -5,23 +5,21 @@
 #include <cstring>
 
 struct PacketDescriptorWithAssumptions {
-	uint16_t timestampNs_high;
-	uint32_t timestampNs_low;
+	uint64_t timestamp : 48;
+	uint64_t size : 13;
+	uint64_t physicalPort : 3;
 	uint64_t* payload;
 	uint64_t payloadHash;
-	uint16_t size : 13;
-	uint16_t physicalPort : 3;
 	uint8_t isValid:1;
 	uint8_t flag2:1;
 	uint8_t flag3:1;
 
-	void SetTimestamp(uint64_t timestamp) {
-		timestampNs_high = timestamp >> 32;
-		timestampNs_low = timestamp;
+	void SetTimestamp(uint64_t _timestamp) {
+		timestamp= _timestamp;
 	}
 
 	uint64_t GetTimestamp() {
-		return (((uint64_t)timestampNs_high << 32) | timestampNs_low);
+		return timestamp;
 	}
 
 	bool IsValid() const {

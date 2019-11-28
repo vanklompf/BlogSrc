@@ -28,30 +28,30 @@ TEST(PacketDescriptorTagged, GetSetPort) {
   EXPECT_EQ(PORT, descriptor.GetPort());
 }
 
+
+static uint64_t PAYLOAD = 1234567890;
 TEST(PacketDescriptorTagged, GetSetPayload) {
   PacketDescriptorTagged descriptor;
 
-  uint64_t* PAYLOAD_PTR = (uint64_t*)0x542467858;
 
-  descriptor.SetPayloadPtr(PAYLOAD_PTR);
-  EXPECT_EQ(PAYLOAD_PTR, descriptor.GetPayloadPtr());
+  descriptor.SetPayloadPtr(&PAYLOAD);
+  EXPECT_EQ(PAYLOAD, *descriptor.GetPayloadPtr());
 }
 
 TEST(PacketDescriptorTagged, MixPayloadPort) {
   PacketDescriptorTagged descriptor;
 
-  uint64_t* PAYLOAD_PTR = (uint64_t*)0x542467858;
-  uint8_t PORT = 5;
+  uint8_t PORT = 7;
 
-  descriptor.SetPayloadPtr(PAYLOAD_PTR);
-  EXPECT_EQ(PAYLOAD_PTR, descriptor.GetPayloadPtr());
+  descriptor.SetPayloadPtr(&PAYLOAD);
+  EXPECT_EQ(PAYLOAD, *descriptor.GetPayloadPtr());
 
   descriptor.SetPort(PORT);
-  EXPECT_EQ(PAYLOAD_PTR, descriptor.GetPayloadPtr());
+  EXPECT_EQ(PAYLOAD, *descriptor.GetPayloadPtr());
   EXPECT_EQ(PORT, descriptor.GetPort());
 
-  descriptor.SetPayloadPtr(PAYLOAD_PTR);
-  EXPECT_EQ(PAYLOAD_PTR, descriptor.GetPayloadPtr());
+  descriptor.SetPayloadPtr(&PAYLOAD);
+  EXPECT_EQ(PAYLOAD, *descriptor.GetPayloadPtr());
   EXPECT_EQ(PORT, descriptor.GetPort());
 }
 

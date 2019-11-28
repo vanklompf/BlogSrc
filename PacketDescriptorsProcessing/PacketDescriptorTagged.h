@@ -6,26 +6,25 @@
 
 struct PacketDescriptorTagged
 {
-	uint16_t timestampNs_high;
-	uint32_t timestampNs_low;
+	uint64_t timestamp : 48;
+	uint64_t size : 13;
+	uint64_t isValid:1;
+	uint64_t flag2:1;
+	uint64_t flag3:1;
 	struct
 	{
 	    uintptr_t payload : (sizeof(intptr_t)*CHAR_BIT-3);
 	    uintptr_t physicalPort : 3;
 	} tagged;
 	uint64_t payloadHash;
-	uint16_t size : 13;
-	uint16_t isValid:1;
-	uint16_t flag2:1;
-	uint16_t flag3:1;
 
-	void SetTimestamp(uint64_t timestamp) {
-		timestampNs_high = timestamp >> 32;
-		timestampNs_low = timestamp;
+
+	void SetTimestamp(uint64_t _timestamp) {
+		timestamp= _timestamp;
 	}
 
 	uint64_t GetTimestamp() {
-		return (((uint64_t)timestampNs_high << 32) | timestampNs_low);
+		return timestamp;
 	}
 
 	bool IsValid() const {
@@ -59,7 +58,7 @@ struct PacketDescriptorTagged
 	void SetPayloadPtr(uint64_t* payload) {
 		tagged.payload = reinterpret_cast<uintptr_t>(payload) >> 3;
 	}
-};
+} __attribute__((packed));
 
 
 #endif /* PACKET_DESCRIPTOR_TAGGED_H_ */
