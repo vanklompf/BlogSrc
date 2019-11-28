@@ -6,3 +6,4 @@ compiler:
 script:
   - cmake .
   - cmake --build .
+  - ctest --verbose
