@@ -20,6 +20,10 @@ struct PacketDescriptorWithAssumptions {
 		timestampNs_low = timestamp;
 	}
 
+	uint64_t GetTimestamp() {
+		return (((uint64_t)timestampNs_high << 32) | timestampNs_low);
+	}
+
 	bool IsValid() const {
 		return isValid;
 	}

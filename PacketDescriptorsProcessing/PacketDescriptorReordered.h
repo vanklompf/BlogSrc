@@ -3,7 +3,6 @@
 
 #include <cstdint>
 
-
 struct PacketDescriptorReordered {
 	uint64_t timestampNs;
 	uint64_t* payload;
