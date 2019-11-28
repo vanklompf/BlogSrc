@@ -5,6 +5,7 @@
 #include "PacketDescriptorPacked.h"
 #include "PacketDescriptorReordered.h"
 #include "PacketDescriptorWithAssumptions.h"
+#include "PacketDescriptorTagged.h"
 #include "ProcessingBenchmark.h"
 #include "Utils.h"
 
@@ -29,7 +30,7 @@ static void doFor(uint8_t* packetBuffer)
 int main()
 {
 	printf("Synthetic cache efficiency benchmark based on imaginary packet processig performance\n");
-	printf("For details check: https://vanklompf.github.io\n");
+	printf("For details check: https://extensa.tech\n");
 
 	printf("Allocating memory for packets...\n");
 	uint8_t* packetBuffer = Allocate(PACKET_BUFFER_SIZE);
@@ -39,4 +40,5 @@ int main()
 	doFor<PacketDescriptorReordered>(packetBuffer);
 	doFor<PacketDescriptorPacked>(packetBuffer);
 	doFor<PacketDescriptorWithAssumptions>(packetBuffer);
+	doFor<PacketDescriptorTagged>(packetBuffer);
 }
