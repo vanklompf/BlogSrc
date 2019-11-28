@@ -6,6 +6,7 @@
 #include "PacketDescriptorReordered.h"
 #include "PacketDescriptorWithAssumptions.h"
 #include "PacketDescriptorTagged.h"
+#include "PacketDescriptorStamped.h"
 #include "ProcessingBenchmark.h"
 #include "Utils.h"
 
@@ -41,4 +42,5 @@ int main()
 	doFor<PacketDescriptorPacked>(packetBuffer);
 	doFor<PacketDescriptorWithAssumptions>(packetBuffer);
 	doFor<PacketDescriptorTagged>(packetBuffer);
+	doFor<PacketDescriptorStamped>(packetBuffer);
 }

@@ -30,6 +30,11 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 add_executable(PacketDescriptorsProcessing main.cpp Utils.cpp)
 
 enable_testing()
-add_executable(runUnitTests unittest/PacketDescriptorWithAssumptions_test.cpp unittest/PacketDescriptorTagged_test.cpp)
+add_executable(
+runUnitTests 
+unittest/PacketDescriptorWithAssumptions_test.cpp 
+unittest/PacketDescriptorTagged_test.cpp
+unittest/PacketDescriptorStamped_test.cpp)
+
 target_link_libraries(runUnitTests gtest_main)
 add_test(NAME descriptorTest COMMAND runUnitTests)
