@@ -1,0 +1,44 @@
+##### Xeon(R) Gold 6148 CPU @ 2.40GHz #####
+Synthetic cache efficiency benchmark based on imaginary packet processig performance
+For details check: https://extensa.tech
+Allocating memory for packets...
+Allocating 2048 Megabytes
+Touching pages
+Done!
+---------------------------------------------------------
+PacketDescriptor
+Size: 48
+Trivial read processing performance: 234 mpps
+Read processing performance: 199 mpps
+Write processing performance: 195 mpps
+---------------------------------------------------------
+PacketDescriptorReordered
+Size: 32
+Trivial read processing performance: 313 mpps
+Read processing performance: 278 mpps
+Write processing performance: 271 mpps
+---------------------------------------------------------
+PacketDescriptorPacked
+Size: 28
+Trivial read processing performance: 366 mpps
+Read processing performance: 310 mpps
+Write processing performance: 301 mpps
+---------------------------------------------------------
+PacketDescriptorWithAssumptions
+Size: 25
+Trivial read processing performance: 357 mpps
+Read processing performance: 310 mpps
+Write processing performance: 228 mpps
+---------------------------------------------------------
+PacketDescriptorTagged
+Size: 24
+Trivial read processing performance: 369 mpps
+Read processing performance: 321 mpps
+Write processing performance: 222 mpps
+---------------------------------------------------------
+PacketDescriptorStamped
+Size: 22
+Trivial read processing performance: 391 mpps
+Read processing performance: 347 mpps
+Write processing performance: 228 mpps
+
