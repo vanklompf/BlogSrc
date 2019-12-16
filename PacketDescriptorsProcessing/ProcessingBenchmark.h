@@ -13,7 +13,7 @@
 #define unlikely(x) __builtin_expect ((x), 0)
 extern uint64_t anti_opt;
 
-template<typename TDescriptor>
+template<typename TDescriptor, int PREFETCHING_AMOUNT=0, int LOCALITY = 3>
 class ProcessingBenchmark
 {
 public:
@@ -24,15 +24,19 @@ public:
 	{}
 
 	int RunWrite() {
-		return Run(std::bind(&ProcessingBenchmark<TDescriptor>::ProcessDescriptorsWrite, this));
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsWrite, this));
 	}
 
 	int RunTrivialRead() {
-		return Run(std::bind(&ProcessingBenchmark<TDescriptor>::ProcessDescriptorsTrivialRead, this));
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsTrivialRead, this));
+	}
+
+	int RunPayloadRead() {
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadRead, this));
 	}
 
 	int RunRead() {
-		return Run(std::bind(&ProcessingBenchmark<TDescriptor>::ProcessDescriptorsRead, this));
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsRead, this));
 	}
 
 	size_t GetDescriptorSize() const {
@@ -70,6 +74,18 @@ public:
 		}
 	}
 
+	void SetPayloadPtrs(uint64_t* payloadbuffer, uint64_t payloadBufferSize) {
+		TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
+		srand (13);
+		payloadBufferSize /= 8;
+
+		do {
+			descriptorPtr->SetPayloadPtr(&payloadbuffer[rand() % payloadBufferSize]);
+			descriptorPtr++;
+		} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+	}
+
 private:
 	int Run(std::function<uint64_t()> f) {
 		auto start = std::chrono::high_resolution_clock::now();
@@ -91,9 +107,58 @@ private:
 			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
 			uint64_t sizeCounter = 0;
 
-			do {
-				sizeCounter += descriptorPtr->GetSize();
+			uint8_t* prefetch_ptr = m_buffer;
+			if (PREFETCHING_AMOUNT >= 64) {
+				do {
+					//printf("prefetching: %lu descriptor: %lu\n", (uintptr_t)prefetch_ptr / 64, (uintptr_t)descriptorPtr / 64);
+					__builtin_prefetch(prefetch_ptr);
+					prefetch_ptr += 64;
+				} while (prefetch_ptr < m_buffer + PREFETCHING_AMOUNT);
+			}
 
+			do {
+				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)descriptorPtr + PREFETCHING_AMOUNT > prefetch_ptr)) {
+					//printf("prefetching: %lu descriptor: %lu\n", (uintptr_t)prefetch_ptr / 64, (uintptr_t)descriptorPtr / 64);
+					__builtin_prefetch(prefetch_ptr);
+					prefetch_ptr += 64;
+				}
+
+				sizeCounter += descriptorPtr->GetSize();
+				descriptorPtr++;
+				totalProcessedCounter++;
+			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+
+			anti_opt += sizeCounter;
+		}
+
+		return totalProcessedCounter;
+	}
+
+	uint64_t ProcessDescriptorsPayloadRead(){
+		uint64_t totalProcessedCounter = 0;
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
+
+		for (int i=0; i<m_repeats; i++) {
+			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+			TDescriptor* prefetch_ptr = descriptorPtr;
+			uint64_t sizeCounter = 0;
+
+			do {
+				//printf("Prefetching index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), prefetch_ptr));
+				__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+				prefetch_ptr++;
+			} while (prefetch_ptr < descriptorPtr + PREFETCHING_AMOUNT);
+
+			do {
+				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)prefetch_ptr < packetBufferEnd)) {
+					//printf("Prefetching index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), prefetch_ptr));
+					//printf("Descriptor index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), descriptorPtr));
+					__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+					prefetch_ptr++;
+				}
+
+				const uint64_t* payload = descriptorPtr->GetPayloadPtr();
+				sizeCounter += *payload;
 				descriptorPtr++;
 				totalProcessedCounter++;
 			} while ((uint8_t*)descriptorPtr < packetBufferEnd);

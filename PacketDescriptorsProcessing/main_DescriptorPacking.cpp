@@ -11,7 +11,7 @@
 #include "Utils.h"
 
 static const uint64_t PACKET_BUFFER_SIZE = (uint64_t)2*1024*1024*1024;
-static const int REPEAT = 50;
+static const int REPEAT = 5000;
 
 uint64_t anti_opt = 1;
 
@@ -43,4 +43,6 @@ int main()
 	doFor<PacketDescriptorWithAssumptions>(packetBuffer);
 	doFor<PacketDescriptorTagged>(packetBuffer);
 	doFor<PacketDescriptorStamped>(packetBuffer);
+
+	return 0;
 }

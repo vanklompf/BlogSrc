@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.10)
 project (PacketDescriptorsProcessing)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-march=native -O3 -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "-march=native -O3 -Wall -Wextra -Werror -ggdb")
 
 ###############################################
 # https://crascit.com/2015/07/25/cmake-gtest/ #
@@ -27,7 +27,13 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
 ###############################################
 
-add_executable(PacketDescriptorsProcessing main.cpp Utils.cpp)
+add_library( PacketDescriptorsLib Utils.cpp )
+
+add_executable(PacketDescriptorsPacking main_DescriptorPacking.cpp)
+target_link_libraries( PacketDescriptorsPacking PacketDescriptorsLib )
+
+add_executable(PacketDescriptorsPrefetching main_DescriptorPrefetching.cpp)
+target_link_libraries( PacketDescriptorsPrefetching PacketDescriptorsLib )
 
 enable_testing()
 add_executable(

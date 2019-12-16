@@ -41,6 +41,14 @@ struct PacketDescriptorPacked {
 	void SetPort(uint8_t port) {
 		physicalPort = port;
 	}
+
+	void SetPayloadPtr(uint64_t* _payload) {
+		payload = _payload;
+	}
+
+	uint64_t*  GetPayloadPtr() {
+		return payload;
+	}
 } __attribute__((packed));
 
 #endif /* PACKET_DESCRIPTOR_PACKED_H */
