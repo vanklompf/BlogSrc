@@ -1,6 +1,7 @@
 #ifndef PROCESSING_BENCHMARK_H
 #define PROCESSING_BENCHMARK_H
 
+#include <algorithm>
 #include <chrono>
 #include <cstdlib>
 #include <cstdio>
@@ -8,6 +9,7 @@
 #include <cstdint>
 #include <cxxabi.h>
 #include <functional>
+#include <math.h>
 
 #define likely(x) __builtin_expect ((x), 1)
 #define unlikely(x) __builtin_expect ((x), 0)
@@ -110,7 +112,6 @@ private:
 			uint8_t* prefetch_ptr = m_buffer;
 			if (PREFETCHING_AMOUNT >= 64) {
 				do {
-					//printf("prefetching: %lu descriptor: %lu\n", (uintptr_t)prefetch_ptr / 64, (uintptr_t)descriptorPtr / 64);
 					__builtin_prefetch(prefetch_ptr);
 					prefetch_ptr += 64;
 				} while (prefetch_ptr < m_buffer + PREFETCHING_AMOUNT);
@@ -118,7 +119,6 @@ private:
 
 			do {
 				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)descriptorPtr + PREFETCHING_AMOUNT > prefetch_ptr)) {
-					//printf("prefetching: %lu descriptor: %lu\n", (uintptr_t)prefetch_ptr / 64, (uintptr_t)descriptorPtr / 64);
 					__builtin_prefetch(prefetch_ptr);
 					prefetch_ptr += 64;
 				}
@@ -144,21 +144,20 @@ private:
 			uint64_t sizeCounter = 0;
 
 			do {
-				//printf("Prefetching index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), prefetch_ptr));
 				__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
 				prefetch_ptr++;
 			} while (prefetch_ptr < descriptorPtr + PREFETCHING_AMOUNT);
 
 			do {
 				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)prefetch_ptr < packetBufferEnd)) {
-					//printf("Prefetching index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), prefetch_ptr));
-					//printf("Descriptor index: %ld\n", std::distance(reinterpret_cast<TDescriptor*>(m_buffer), descriptorPtr));
 					__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
 					prefetch_ptr++;
 				}
 
 				const uint64_t* payload = descriptorPtr->GetPayloadPtr();
-				sizeCounter += *payload;
+                const uint8_t* payload8 = (uint8_t*)payload;
+
+				sizeCounter += (uint64_t)sqrt(*payload) + *std::max_element(payload8, payload8 + 32) + *std::min_element(payload8, payload8 + 32);
 				descriptorPtr++;
 				totalProcessedCounter++;
 			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
