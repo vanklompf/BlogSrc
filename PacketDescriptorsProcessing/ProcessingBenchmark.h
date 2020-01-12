@@ -33,8 +33,16 @@ public:
 		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsTrivialRead, this));
 	}
 
+	int RunTrivialReadLong() {
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsTrivialReadLong, this));
+	}
+
 	int RunPayloadRead() {
 		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadRead, this));
+	}
+
+	int RunPayloadReadLong() {
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadReadLong, this));
 	}
 
 	int RunRead() {
@@ -134,40 +142,6 @@ private:
 		return totalProcessedCounter;
 	}
 
-	uint64_t ProcessDescriptorsPayloadRead(){
-		uint64_t totalProcessedCounter = 0;
-		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
-
-		for (int i=0; i<m_repeats; i++) {
-			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
-			TDescriptor* prefetch_ptr = descriptorPtr;
-			uint64_t sizeCounter = 0;
-
-			do {
-				__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
-				prefetch_ptr++;
-			} while (prefetch_ptr < descriptorPtr + PREFETCHING_AMOUNT);
-
-			do {
-				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)prefetch_ptr < packetBufferEnd)) {
-					__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
-					prefetch_ptr++;
-				}
-
-				const uint64_t* payload = descriptorPtr->GetPayloadPtr();
-                const uint8_t* payload8 = (uint8_t*)payload;
-
-				sizeCounter += (uint64_t)sqrt(*payload) + *std::max_element(payload8, payload8 + 32) + *std::min_element(payload8, payload8 + 32);
-				descriptorPtr++;
-				totalProcessedCounter++;
-			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
-
-			anti_opt += sizeCounter;
-		}
-
-		return totalProcessedCounter;
-	}
-
 	uint64_t ProcessDescriptorsRead(){
 		uint64_t totalProcessedCounter = 0;
 		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
@@ -215,7 +189,109 @@ private:
 
 		return totalProcessedCounter;
 	}
+    
+    ////////////////////////////////////////////////////////////////
+    uint64_t ProcessDescriptorsPayloadReadLong(){
+		uint64_t totalProcessedCounter = 0;
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
 
+		for (int i=0; i<m_repeats / 10; i++) {
+			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+			TDescriptor* prefetch_ptr = descriptorPtr;
+			uint64_t sizeCounter = 0;
+
+			do {
+				__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+				prefetch_ptr++;
+			} while (prefetch_ptr < descriptorPtr + PREFETCHING_AMOUNT);
+
+			do {
+				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)prefetch_ptr < packetBufferEnd)) {
+					__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+					prefetch_ptr++;
+				}
+
+				const uint64_t* payload = descriptorPtr->GetPayloadPtr();
+                const uint8_t* payload8 = (uint8_t*)payload;
+
+				sizeCounter += (uint64_t)sqrt(*payload) + *std::max_element(payload8, payload8 + 32) + *std::min_element(payload8, payload8 + 32);
+				descriptorPtr++;
+				totalProcessedCounter++;
+			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+
+			anti_opt += sizeCounter;
+		}
+
+		return totalProcessedCounter;
+	}
+    
+    uint64_t ProcessDescriptorsPayloadRead(){
+		uint64_t totalProcessedCounter = 0;
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
+
+		for (int i=0; i<m_repeats / 10; i++) {
+			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+			TDescriptor* prefetch_ptr = descriptorPtr;
+			uint64_t sizeCounter = 0;
+
+			do {
+				__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+				prefetch_ptr++;
+			} while (prefetch_ptr < descriptorPtr + PREFETCHING_AMOUNT);
+
+			do {
+				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)prefetch_ptr < packetBufferEnd)) {
+					__builtin_prefetch(prefetch_ptr->GetPayloadPtr());
+					prefetch_ptr++;
+				}
+
+				const uint64_t* payload = descriptorPtr->GetPayloadPtr();
+				sizeCounter += *payload;
+				descriptorPtr++;
+				totalProcessedCounter++;
+			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+
+			anti_opt += sizeCounter;
+		}
+
+		return totalProcessedCounter;
+	}
+    
+    uint64_t ProcessDescriptorsTrivialReadLong(){
+		uint64_t totalProcessedCounter = 0;
+		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
+
+		for (int i=0; i<m_repeats / 10; i++) {
+			TDescriptor* descriptorPtr = reinterpret_cast<TDescriptor*>(m_buffer);
+			uint64_t sizeCounter = 0;
+
+			uint8_t* prefetch_ptr = m_buffer;
+			if (PREFETCHING_AMOUNT >= 64) {
+				do {
+					__builtin_prefetch(prefetch_ptr);
+					prefetch_ptr += 64;
+				} while (prefetch_ptr < m_buffer + PREFETCHING_AMOUNT);
+			}
+
+			do {
+				if ((PREFETCHING_AMOUNT > 0) && ((uint8_t*)descriptorPtr + PREFETCHING_AMOUNT > prefetch_ptr)) {
+					__builtin_prefetch(prefetch_ptr);
+					prefetch_ptr += 64;
+				}
+
+                const uint8_t* payload8 = (uint8_t*)descriptorPtr;
+				sizeCounter += descriptorPtr->GetSize() + (uint64_t)sqrt(descriptorPtr->GetTimestamp()) + *std::max_element(payload8, payload8 + sizeof(TDescriptor)) + *std::min_element(payload8, payload8 + sizeof(TDescriptor));
+				descriptorPtr++;
+				totalProcessedCounter++;
+			} while ((uint8_t*)descriptorPtr < packetBufferEnd);
+
+			anti_opt += sizeCounter;
+		}
+
+		return totalProcessedCounter;
+	}
+    
+    
 	uint8_t* m_buffer;
 	const uint64_t m_bufferSize;
 	const int m_repeats;

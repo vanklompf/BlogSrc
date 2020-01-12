@@ -1,0 +1,273 @@
+##### Xeon(R) Gold 6148 CPU @ 2.40GHz #####
+Synthetic cache efficiency benchmark based on imaginary packet processig performance
+For details check: https://extensa.tech
+Allocating memory for packets...
+Allocating 1024 Megabytes
+Touching pages
+Allocating 1024 Megabytes
+Touching pages
+Done!
+---------------------------------------------------------
+Prefetching 0 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 367 mpps
+---------------------------------------------------------
+Prefetching 64 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 327 mpps
+---------------------------------------------------------
+Prefetching 128 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 331 mpps
+---------------------------------------------------------
+Prefetching 256 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 338 mpps
+---------------------------------------------------------
+Prefetching 512 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 346 mpps
+---------------------------------------------------------
+Prefetching 768 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 353 mpps
+---------------------------------------------------------
+Prefetching 1024 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 363 mpps
+---------------------------------------------------------
+Prefetching 2048 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 407 mpps
+---------------------------------------------------------
+Prefetching 4096 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 442 mpps
+---------------------------------------------------------
+Prefetching 8192 bytes ahead
+Prefetching locality: 3
+Trivial read processing performance: 442 mpps
+---------------------------------------------------------
+Prefetching 0 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 62 mpps         long: 5 mpps
+---------------------------------------------------------
+Prefetching 1 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 57 mpps         long: 9 mpps
+---------------------------------------------------------
+Prefetching 2 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 58 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 4 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 59 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 8 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 61 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 16 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 63 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 32 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 64 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 128 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 256 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 384 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 512 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 58 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 768 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 52 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 1024 pointers ahead
+Prefetching locality: 0
+Payload read processing performance:     normal: 47 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 0 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 62 mpps         long: 5 mpps
+---------------------------------------------------------
+Prefetching 1 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 57 mpps         long: 9 mpps
+---------------------------------------------------------
+Prefetching 2 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 58 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 4 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 59 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 8 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 61 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 16 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 63 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 32 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 64 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 128 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 256 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 384 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 512 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 58 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 768 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 52 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 1024 pointers ahead
+Prefetching locality: 1
+Payload read processing performance:     normal: 47 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 0 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 62 mpps         long: 5 mpps
+---------------------------------------------------------
+Prefetching 1 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 57 mpps         long: 9 mpps
+---------------------------------------------------------
+Prefetching 2 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 58 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 4 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 59 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 8 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 61 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 16 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 63 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 32 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 64 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 128 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 256 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 61 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 384 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 512 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 58 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 768 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 52 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 1024 pointers ahead
+Prefetching locality: 2
+Payload read processing performance:     normal: 47 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 0 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 62 mpps         long: 5 mpps
+---------------------------------------------------------
+Prefetching 1 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 57 mpps         long: 9 mpps
+---------------------------------------------------------
+Prefetching 2 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 58 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 4 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 59 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 8 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 61 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 16 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 63 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 32 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 64 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 128 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 62 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 256 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 384 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 60 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 512 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 58 mpps         long: 11 mpps
+---------------------------------------------------------
+Prefetching 768 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 52 mpps         long: 10 mpps
+---------------------------------------------------------
+Prefetching 1024 pointers ahead
+Prefetching locality: 3
+Payload read processing performance:     normal: 47 mpps         long: 10 mpps

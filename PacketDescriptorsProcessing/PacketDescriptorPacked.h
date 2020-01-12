@@ -14,6 +14,10 @@ struct PacketDescriptorPacked {
 	uint8_t flag2:1;
 	uint8_t flag3:1;
 
+	uint64_t GetTimestamp() {
+		return timestampNs;
+	}
+
 	void SetTimestamp(uint64_t timestamp) {
 		timestampNs = timestamp;
 	}
