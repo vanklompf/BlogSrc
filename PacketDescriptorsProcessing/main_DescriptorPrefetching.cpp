@@ -27,7 +27,7 @@ static void doFor(uint8_t* packetBuffer)
     printf("Prefetching %d bytes ahead\n", PREFETCHING_AMOUNT);
     printf("Prefetching locality: %d\n", LOCALITY);
     printf("Trivial read processing performance: %d mpps\n", descriptorBenchmark.RunTrivialRead());
-    //printf("Trivial long read processing performance: %d mpps\n", descriptorBenchmark.RunTrivialReadLong());
+    printf("Trivial long read processing performance: %d mpps\n", descriptorBenchmark.RunTrivialReadLong());
 }
 
 template<typename TDescriptor, int PREFETCHING_AMOUNT, int LOCALITY=3>
@@ -40,7 +40,7 @@ static void doPayloadFor(uint8_t* packetBuffer, uint64_t* payloadBuffer)
     printf("---------------------------------------------------------\n");
     printf("Prefetching %d pointers ahead\n", PREFETCHING_AMOUNT);
     printf("Prefetching locality: %d\n", LOCALITY);
-    printf("Payload read processing performance:\t normal: %d mpps\t long: %d mpps\n", descriptorBenchmark.RunPayloadRead(), descriptorBenchmark.RunPayloadReadLong());
+    printf("Payload read processing performance:\t normal: %d mpps\t heavy: %d mpps\n", descriptorBenchmark.RunPayloadRead(), descriptorBenchmark.RunPayloadReadHeavy());
 }
 
 
@@ -91,10 +91,9 @@ int main()
     doFor<PacketDescriptorPacked, 4096>(packetBuffer);
     doFor<PacketDescriptorPacked, 8192>(packetBuffer);
 
-
-    doPayloadForLocality<0>(packetBuffer, payloadBuffer);    
+    doPayloadForLocality<0>(packetBuffer, payloadBuffer);
     doPayloadForLocality<1>(packetBuffer, payloadBuffer); 
     doPayloadForLocality<2>(packetBuffer, payloadBuffer); 
-    doPayloadForLocality<3>(packetBuffer, payloadBuffer); 
+    doPayloadForLocality<3>(packetBuffer, payloadBuffer);
 }
 

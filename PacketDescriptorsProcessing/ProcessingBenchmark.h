@@ -41,8 +41,8 @@ public:
 		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadRead, this));
 	}
 
-	int RunPayloadReadLong() {
-		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadReadLong, this));
+	int RunPayloadReadHeavy() {
+		return Run(std::bind(&ProcessingBenchmark<TDescriptor, PREFETCHING_AMOUNT, LOCALITY>::ProcessDescriptorsPayloadReadHeavy, this));
 	}
 
 	int RunRead() {
@@ -191,7 +191,7 @@ private:
 	}
     
     ////////////////////////////////////////////////////////////////
-    uint64_t ProcessDescriptorsPayloadReadLong(){
+    uint64_t ProcessDescriptorsPayloadReadHeavy(){
 		uint64_t totalProcessedCounter = 0;
 		const uint8_t* packetBufferEnd = m_buffer + m_bufferSize;
 
