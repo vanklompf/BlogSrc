@@ -52,3 +52,4 @@ BitSet_Popcnt/BitSet_Popcnt
 MultiVersionInline/MultiVersionInline
 PacketDescriptorsProcessing/PacketDescriptorsPrefetching
 PacketDescriptorsProcessing/PacketDescriptorsPacking
+AvxThrottle/AvxThrottle
