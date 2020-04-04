@@ -1,0 +1,69 @@
+
+
+perf stat -e cpu/event=0x28,umask=0x18,name=core_power_lvl1_turbo_license/,cpu/event=0x28,umask=0x20,name=core_power_lvl2_turbo_license/,cpu/event=0x28,umask=0x40,name=core_power_throttle/ ./FloatCrunching 0
+Impact of Avx2 and Avx512 on CPU clock and performance. Example is using float numbers crunching as CPU load.
+For details check: https://extensa.tech
+Running: default optimization
+16726 ms
+AntiOpt: 0
+
+ Performance counter stats for './FloatCrunching 0':
+
+                 0      core_power_lvl1_turbo_license
+                 0      core_power_lvl2_turbo_license
+              1426      core_power_throttle
+
+      16.751879140 seconds time elapsed
+
+----------------------------------------------------------------------------------
+
+perf stat -e cpu/event=0x28,umask=0x18,name=core_power_lvl1_turbo_license/,cpu/event=0x28,umask=0x20,name=core_power_lvl2_turbo_license/,cpu/event=0x28,umask=0x40,name=core_power_throttle/ ./FloatCrunching 1
+Impact of Avx2 and Avx512 on CPU clock and performance. Example is using float numbers crunching as CPU load.
+For details check: https://extensa.tech
+Running: avx optimized
+16702 ms
+AntiOpt: 0
+
+ Performance counter stats for './FloatCrunching 1':
+
+                 0      core_power_lvl1_turbo_license
+                 0      core_power_lvl2_turbo_license
+              2445      core_power_throttle
+
+      16.731274271 seconds time elapsed
+      
+----------------------------------------------------------------------------------
+
+perf stat -e cpu/event=0x28,umask=0x18,name=core_power_lvl1_turbo_license/,cpu/event=0x28,umask=0x20,name=core_power_lvl2_turbo_license/,cpu/event=0x28,umask=0x40,name=core_power_throttle/ ./FloatCrunching 2
+Impact of Avx2 and Avx512 on CPU clock and performance. Example is using float numbers crunching as CPU load.
+For details check: https://extensa.tech
+Running: avx2 optimized
+16865 ms
+AntiOpt: 0
+
+ Performance counter stats for './FloatCrunching 2':
+
+                 0      core_power_lvl1_turbo_license
+                 0      core_power_lvl2_turbo_license
+                 0      core_power_throttle
+
+      16.892083365 seconds time elapsed
+      
+----------------------------------------------------------------------------------
+
+perf stat -e cpu/event=0x28,umask=0x18,name=core_power_lvl1_turbo_license/,cpu/event=0x28,umask=0x20,name=core_power_lvl2_turbo_license/,cpu/event=0x28,umask=0x40,name=core_power_throttle/ ./FloatCrunching 3
+Impact of Avx2 and Avx512 on CPU clock and performance. Example is using float numbers crunching as CPU load.
+For details check: https://extensa.tech
+Running: avx512 optimized
+19957 ms
+AntiOpt: 0
+
+ Performance counter stats for './FloatCrunching 3':
+
+       51770739083      core_power_lvl1_turbo_license
+                 0      core_power_lvl2_turbo_license
+             85122      core_power_throttle
+
+      19.985386001 seconds time elapsed
+      
+------------------------------------------------------------------------------------
