@@ -5,11 +5,12 @@
 #include <string.h>
 #include <numeric>
 
+#include <sched.h>
 #include <stdlib.h>
 
 static constexpr int BUFFER_SIZE = 1024 * 1024 * 2;
 static constexpr int STEP = 2048;
-static constexpr int REPEAT = 2000;
+static constexpr int REPEAT = 20000;
 
 struct Point { float x; float y; float z; } __attribute__ ((aligned (16)));
 typedef Point NumType;
@@ -77,6 +78,12 @@ void float_math_avx512(NumType* buffer) {
 int main(int argc, char** argv) {
 	printf("Impact of Avx2 and Avx512 on CPU clock and performance. Example is using float numbers crunching as CPU load.\n");
 	printf("For details check: https://extensa.tech\n");
+    
+    cpu_set_t my_set;
+    CPU_ZERO(&my_set);
+    CPU_SET(13, &my_set);
+    sched_setaffinity(0, sizeof(cpu_set_t), &my_set);
+
     auto buffer = new NumType[BUFFER_SIZE + STEP];
 
     //warm up
