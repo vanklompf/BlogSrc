@@ -53,3 +53,5 @@ MultiVersionInline/MultiVersionInline
 PacketDescriptorsProcessing/PacketDescriptorsPrefetching
 PacketDescriptorsProcessing/PacketDescriptorsPacking
 AvxThrottle/FloatCrunching
+AvxBitmaskDistribute/runUnitTests
+AvxBitmaskDistribute/BitmaskDistribute
