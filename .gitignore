@@ -55,3 +55,4 @@ PacketDescriptorsProcessing/PacketDescriptorsPacking
 AvxThrottle/FloatCrunching
 AvxBitmaskDistribute/runUnitTests
 AvxBitmaskDistribute/BitmaskDistribute
+FastMerging/FastMerging
