@@ -1,6 +1,5 @@
-project (PacketDescriptorsProcessing)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-march=native -O3 -Wall -Wextra -Werror -ggdb")
+project (FastMerge)
+set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall -Wextra -Werror")
 
 ###############################################
 # https://crascit.com/2015/07/25/cmake-gtest/ #
@@ -26,20 +25,15 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
 ###############################################
 
-add_library( PacketDescriptorsLib Utils.cpp )
 
-add_executable(PacketDescriptorsPacking main_DescriptorPacking.cpp)
-target_link_libraries( PacketDescriptorsPacking PacketDescriptorsLib )
-
-add_executable(PacketDescriptorsPrefetching main_DescriptorPrefetching.cpp)
-target_link_libraries( PacketDescriptorsPrefetching PacketDescriptorsLib )
+add_library( FastMergeLib FastMerge.cpp )
+add_executable(FastMerge main.cpp)
+target_link_libraries( FastMerge FastMergeLib )
 
 enable_testing()
 add_executable(
 runUnitTests 
-unittest/PacketDescriptorWithAssumptions_test.cpp 
-unittest/PacketDescriptorTagged_test.cpp
-unittest/PacketDescriptorStamped_test.cpp)
+unittest/FastMerge_test.cpp)
 
-target_link_libraries(runUnitTests gtest_main)
-add_test(NAME descriptorTest COMMAND runUnitTests)
+target_link_libraries(runUnitTests gtest_main FastMergeLib)
+add_test(NAME fastMergeTest COMMAND runUnitTests)

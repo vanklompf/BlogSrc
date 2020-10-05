@@ -45,14 +45,13 @@ googletest-*/
 *.exe
 *.out
 *.app
+*/runUnitTests
 PacketDescriptorsProcessing/PacketDescriptorsProcessing
-PacketDescriptorsProcessing/runUnitTests
 BitSet/BitSet
 BitSet_Popcnt/BitSet_Popcnt
 MultiVersionInline/MultiVersionInline
 PacketDescriptorsProcessing/PacketDescriptorsPrefetching
 PacketDescriptorsProcessing/PacketDescriptorsPacking
 AvxThrottle/FloatCrunching
-AvxBitmaskDistribute/runUnitTests
 AvxBitmaskDistribute/BitmaskDistribute
-FastMerging/FastMerging
+FastMerge/FastMerge

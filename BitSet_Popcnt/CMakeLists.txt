@@ -1,4 +1,3 @@
-cmake_minimum_required (VERSION 3.10)
 project (BitSet_Popcnt)
 
 set(CMAKE_CXX_FLAGS "-O3 -march=native -Wall -Wextra -Werror")
