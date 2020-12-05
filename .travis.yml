@@ -10,8 +10,7 @@ addons:
 compiler:
   - gcc
 env:
-   - CC=gcc9 
-   - CXX=g++9
+   - CC=gcc-9 CXX=g++-9
 script:
   - cmake .
   - cmake --build .
