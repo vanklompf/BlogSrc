@@ -7,12 +7,12 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-9
-    - cmake
 compiler:
   - gcc
 env:
    - CC=gcc-9 CXX=g++-9
 script:
+  - pip install --upgrade cmake
   - cmake .
   - cmake --build .
 #  - ctest --verbose
