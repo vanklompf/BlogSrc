@@ -1,6 +1,12 @@
 sudo: false
 dist: bionic
 language: cpp
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-9
 compiler:
   - gcc
 script:
