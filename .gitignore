@@ -57,3 +57,5 @@ apps/AvxBitmaskDistribute/BitmaskDistribute
 apps/FastMerge/FastMerge
 apps/SerialWrite/SerialWrite
 apps/AvxBitmaskDistribute/unittest/AvxBitmaskDistributeUt
+apps/FastMerge/unittest/FastMergeUt
+apps/PacketDescriptorsProcessing/unittest/PacketDescriptorsProcessingUt

@@ -1,5 +1,5 @@
 #include "PacketDescriptorWithAssumptions.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace {
 TEST(PacketDescriptorWithAssumptions, ValidGet) {

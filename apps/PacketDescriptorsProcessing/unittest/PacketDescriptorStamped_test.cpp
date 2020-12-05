@@ -1,6 +1,6 @@
-#include "../PacketDescriptorStamped.h"
+#include "PacketDescriptorStamped.h"
 
-#include "../googletest-src/googletest/include/gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace {
 TEST(PacketDescriptorStamped, ValidGet) {

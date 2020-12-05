@@ -1,5 +1,5 @@
 #include "PacketDescriptorTagged.h"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace {
 TEST(PacketDescriptorTagged, ValidGet) {
