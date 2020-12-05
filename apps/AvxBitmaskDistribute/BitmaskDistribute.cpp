@@ -78,6 +78,23 @@ static void avx256DistributeImpl(const uint32_t* bitArray, size_t bitArraySize, 
   }
 }
 
+void avx256Distribute(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
+  size_t fast_size = bitArraySize & ~0x7;
+  size_t reminder_size = bitArraySize & 0x7;
+
+  avx256DistributeImpl<false>(bitArray, fast_size, queues);
+  basicDistribute(bitArray + fast_size, reminder_size, queues);
+}
+
+void avx256DistributeCompress(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
+  size_t fast_size = bitArraySize & ~0x7;
+  size_t reminder_size = bitArraySize & 0x7;
+
+  avx256DistributeImpl<true>(bitArray, fast_size, queues);
+  basicDistribute(bitArray + fast_size, reminder_size, queues);
+}
+
+#ifdef __AVX512F__
 template<bool isUsingCompress>
 static void avx512DistributeImpl(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
     // offset for converting leading zeroes to queue index
@@ -142,23 +159,6 @@ static void avx512DistributeImpl(const uint32_t* bitArray, size_t bitArraySize, 
     }
 }
 
-
-void avx256Distribute(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
-  size_t fast_size = bitArraySize & ~0x7;
-  size_t reminder_size = bitArraySize & 0x7;
-
-  avx256DistributeImpl<false>(bitArray, fast_size, queues);
-  basicDistribute(bitArray + fast_size, reminder_size, queues);
-}
-
-void avx256DistributeCompress(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
-  size_t fast_size = bitArraySize & ~0x7;
-  size_t reminder_size = bitArraySize & 0x7;
-
-  avx256DistributeImpl<true>(bitArray, fast_size, queues);
-  basicDistribute(bitArray + fast_size, reminder_size, queues);
-}
-
 void avx512Distribute(const uint32_t* bitArray, size_t bitArraySize, Queue** queues) {
     size_t fast_size = bitArraySize & ~0xF;
     size_t reminder_size = bitArraySize & 0xF;
@@ -174,3 +174,5 @@ void avx512DistributeCompress(const uint32_t* bitArray, size_t bitArraySize, Que
     avx512DistributeImpl<true>(bitArray, fast_size, queues);
     basicDistribute(bitArray + fast_size, reminder_size, queues);
 }
+
+#endif

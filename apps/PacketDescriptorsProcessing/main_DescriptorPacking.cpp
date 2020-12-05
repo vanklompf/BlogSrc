@@ -8,7 +8,7 @@
 #include "PacketDescriptorTagged.h"
 #include "PacketDescriptorStamped.h"
 #include "ProcessingBenchmark.h"
-#include "Utils.h"
+#include "utils/Allocate.h"
 
 static const uint64_t PACKET_BUFFER_SIZE = (uint64_t)2*1024*1024*1024;
 static const int REPEAT = 5000;

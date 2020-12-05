@@ -1,10 +1,10 @@
-#include "Utils.h"
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include "Allocate.h"
 
 static void TouchPages(void* ptr, size_t size)
 {
@@ -45,7 +45,3 @@ uint8_t* Allocate(size_t size, bool useHugePages __attribute__ ((unused)))
 	return static_cast<uint8_t*>(ptr);
 }
 
-uint8_t* AllocateWithHugePages(uint64_t size)
-{
-	return Allocate(size, true);
-}

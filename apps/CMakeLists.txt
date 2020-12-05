@@ -1,6 +1,4 @@
-project (PacketDescriptorsProcessing)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "-march=native -O3 -Wall -Wextra -Werror -ggdb")
+project (BlogSrcApps)
 
 ###############################################
 # https://crascit.com/2015/07/25/cmake-gtest/ #
@@ -26,20 +24,10 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
 ###############################################
 
-add_library( PacketDescriptorsLib Utils.cpp )
-
-add_executable(PacketDescriptorsPacking main_DescriptorPacking.cpp)
-target_link_libraries( PacketDescriptorsPacking PacketDescriptorsLib )
-
-add_executable(PacketDescriptorsPrefetching main_DescriptorPrefetching.cpp)
-target_link_libraries( PacketDescriptorsPrefetching PacketDescriptorsLib )
-
-enable_testing()
-add_executable(
-runUnitTests 
-unittest/PacketDescriptorWithAssumptions_test.cpp 
-unittest/PacketDescriptorTagged_test.cpp
-unittest/PacketDescriptorStamped_test.cpp)
-
-target_link_libraries(runUnitTests gtest_main)
-add_test(NAME descriptorTest COMMAND runUnitTests)
+add_subdirectory(AvxBitmaskDistribute)
+add_subdirectory(BitSet)
+add_subdirectory(BitSet_Popcnt)
+add_subdirectory(FastMerge)
+add_subdirectory(MultiVersionInline)
+add_subdirectory(PacketDescriptorsProcessing)
+add_subdirectory(SerialWrite)

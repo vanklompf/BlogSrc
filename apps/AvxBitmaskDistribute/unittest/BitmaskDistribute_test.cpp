@@ -114,21 +114,30 @@ TEST(TestBasicDistribute, TestNormalMask) {
 INSTANTIATE_TEST_CASE_P(InstantiationEntries1, TestBasicDistributeSizingEntries,
   testing::Combine(
     testing::Range(0, 32),
-    testing::Values(basicDistribute, avx256Distribute, avx256DistributeCompress)
+    testing::Values(
+    		basicDistribute,
+			avx256Distribute,
+			avx256DistributeCompress)
   )
 );
 
 INSTANTIATE_TEST_CASE_P(InstantiationEntries2, TestBasicDistributeSizingEntries,
   testing::Combine(
     testing::Values(100, 1000, 10000),
-    testing::Values(basicDistribute, avx256Distribute, avx256DistributeCompress)
+    testing::Values(
+    		basicDistribute,
+			avx256Distribute,
+			avx256DistributeCompress)
   )
 );
 
 INSTANTIATE_TEST_CASE_P(InstantiationQueues, TestBasicDistributeSizingQueues,
   testing::Combine(
     testing::Range(0, 32),
-    testing::Values(basicDistribute, avx256Distribute, avx256DistributeCompress)
+    testing::Values(
+    		basicDistribute,
+			avx256Distribute,
+			avx256DistributeCompress)
   )
 );
 
