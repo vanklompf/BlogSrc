@@ -16,3 +16,6 @@ script:
   - cmake .
   - cmake --build .
 #  - ctest --verbose
+
+notifications:
+  email: false
