@@ -16,6 +16,8 @@ public:
 	void Add(T val) {
 		m_buf[m_pos++] = val;
 	}
+
+	void Reset() {m_pos = 0;}
 };
 
 #endif /* BASIC_WRITE_H */

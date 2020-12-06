@@ -3,12 +3,6 @@
 
 #include <cstdint>
 
-uint8_t* Allocate(uint64_t size, bool useHugePages = false);
-
-template<typename T=uint8_t>
-T* AllocateWithHugePages(uint64_t size)
-{
-	return (T*)Allocate(size* sizeof(T), true);
-}
+uint8_t* Allocate(uint64_t size, bool useHugePages = false, bool randomPayload = false);
 
 #endif /* UTILS_H */
