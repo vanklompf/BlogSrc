@@ -11,8 +11,7 @@
 #include <functional>
 #include <math.h>
 
-#define likely(x) __builtin_expect ((x), 1)
-#define unlikely(x) __builtin_expect ((x), 0)
+#include "utils/Utils.h"
 extern uint64_t anti_opt;
 
 template<typename TDescriptor, int PREFETCHING_AMOUNT=0, int LOCALITY = 3>
